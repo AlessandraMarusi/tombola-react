@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "tombola-react-client-side-solution",
+    "id": "e2e02f10-97d4-43e5-9231-568b36496632",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.15.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "tombola-react description"
+      },
+      "longDescription": {
+        "default": "tombola-react description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "tombola-react Feature",
+        "description": "The feature that activates elements of the tombola-react solution.",
+        "id": "6061df17-1f87-434b-8e2a-a9bdc4a0a676",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/tombola-react.sppkg"
+  }
+}

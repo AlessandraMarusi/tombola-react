@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.15.2",
+    "libraryName": "tombola-react",
+    "libraryId": "e2e02f10-97d4-43e5-9231-568b36496632",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "tombola-react",
+    "solutionShortDescription": "tombola-react description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
