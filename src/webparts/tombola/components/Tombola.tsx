@@ -1,43 +1,147 @@
-import * as React from 'react';
-import styles from './Tombola.module.scss';
-import { ITombolaProps } from './ITombolaProps';
-import { escape } from '@microsoft/sp-lodash-subset';
+import * as React from "react";
+import styles from "./Tombola.module.scss";
+import "../styles/TombolaStyles.scss";
+import { ITombolaProps } from "../contracts/ITombolaProps";
+import { escape } from "@microsoft/sp-lodash-subset";
+import Header from "./Header";
+import InputNumber from "./InputNumber";
+import { PrimaryButton } from "office-ui-fabric-react/lib/Button";
+import { useState, useRef, useEffect } from "react";
+import * as _ from "lodash";
 
-export default class Tombola extends React.Component<ITombolaProps, {}> {
-  public render(): React.ReactElement<ITombolaProps> {
-    const {
-      description,
-      isDarkTheme,
-      environmentMessage,
-      hasTeamsContext,
-      userDisplayName
-    } = this.props;
+const Tombola = (props: ITombolaProps) => {
+  // const [userNumbers, setUserNumbers] = useState<{ name: string; value: string }[]>([]);
+  const [userNumbers, setUserNumbers] = useState(
+    ([] as { name: string; value: number }[]) || []
+  );
+  const [tombolaNumbers, setTombolaNumbers] = useState<JSX.Element[]>(
+    [] as JSX.Element[]
+  );
+  const [winningNumbers, setWinningNumbers] = useState<number[]>([]);
 
-    return (
-      <section className={`${styles.tombola} ${hasTeamsContext ? styles.teams : ''}`}>
-        <div className={styles.welcome}>
-          <img alt="" src={isDarkTheme ? require('../assets/welcome-dark.png') : require('../assets/welcome-light.png')} className={styles.welcomeImage} />
-          <h2>Well done, {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
-          <div>Web part property value: <strong>{escape(description)}</strong></div>
+  //Funzione cambio dei numeri dell'utente
+  const changeNumber = (event: any) => {
+    const id = userNumbers.map((e) => e.name).indexOf(event.target.name);
+    const name = event.target.name;
+    const value = event.target.value;
+    const userNumber = { name, value };
+    //Se non è nell'array, lo si aggiunge
+    if (id === -1) {
+      setUserNumbers((prevUserNumbers) => {
+        const nextUserNumbers = [...prevUserNumbers, userNumber];
+        return nextUserNumbers;
+      });
+    }
+    //se è già nell'array
+    else {
+      let newArray = [...userNumbers];
+      newArray[id] = userNumber;
+      setUserNumbers(newArray);
+    }
+    console.log(userNumbers);
+  };
+
+  const randomNumGenerator = () => {
+    return Math.floor(Math.random() * 90) + 1;
+  };
+  var arrayNumbers: number[] = [];
+  //Generatore numeri
+  const numbersGenerator = () => {
+    console.log("NEW GENERATION");
+    var n = 50;
+    // var arrayNumbers: number[] = [];
+    // for (let i = 0; i < 50; i++) {
+    //   arrayNumbers.push(randomNumGenerator());
+    // }
+    arrayNumbers = [];
+    while (arrayNumbers.length < n) {
+      const num = randomNumGenerator();
+      if (arrayNumbers.includes(num)) console.log("già presente");
+      else arrayNumbers.push(num);
+    }
+    // console.log(arrayNumbers);
+    const arrayNumbersJsx: JSX.Element[] = arrayNumbers.map((el: number) => (
+      <span style={{ color: "red" }} className="tombola_number" key={el}>
+        {el}
+      </span>
+    ));
+
+    setTombolaNumbers((v) => arrayNumbersJsx);
+    checkNumbers();
+  };
+
+  const checkNumbers = () => {
+    userNumbers.forEach((element) => {
+      const value: number = element.value;
+
+      console.log(`Elemento del forEach: ${value}`);
+      console.log(arrayNumbers);
+      /* if (arrayNumbers.includes(value)) {
+        console.log("HAI TROVATO UN NUMERO!");
+        setWinningNumbers((prevWinningNumbers) => {
+          const nextWinningNumbers = [...prevWinningNumbers, value];
+          return nextWinningNumbers;
+        });
+        
+      } */
+      // if (arrayNumbers.includes(value)) console.log("Numero vincente trovato");
+      if (_.find(arrayNumbers, value) !== undefined)
+        console.log(`Prova - Numero vincente trovato ${value}`);
+      console.log(arrayNumbers.indexOf(value));
+      if (arrayNumbers.indexOf(value) !== -1)
+        console.log("Numero vincente trovato");
+    });
+    console.log(`Numeri vincenti: ${winningNumbers}`);
+  };
+
+  const checkConsole = () => {
+    console.log(tombolaNumbers);
+    console.log(winningNumbers);
+  };
+  return (
+    <div className="tombola_wrapper">
+      <Header />
+      <body className="tombola_container">
+        <div className="input_container">
+          <input
+            type="number"
+            name="inputNumber1"
+            placeholder="1"
+            onChange={changeNumber}
+          />
+          <input
+            type="number"
+            name="inputNumber2"
+            placeholder="1"
+            onChange={changeNumber}
+          />
+          <input
+            type="number"
+            name="inputNumber3"
+            placeholder="1"
+            onChange={changeNumber}
+          />
+          <input
+            type="number"
+            name="inputNumber4"
+            placeholder="1"
+            onChange={changeNumber}
+          />
+          <input
+            type="number"
+            name="inputNumber5"
+            placeholder="1"
+            onChange={changeNumber}
+          />
         </div>
-        <div>
-          <h3>Welcome to SharePoint Framework!</h3>
-          <p>
-            The SharePoint Framework (SPFx) is a extensibility model for Microsoft Viva, Microsoft Teams and SharePoint. It&#39;s the easiest way to extend Microsoft 365 with automatic Single Sign On, automatic hosting and industry standard tooling.
-          </p>
-          <h4>Learn more about SPFx development:</h4>
-          <ul className={styles.links}>
-            <li><a href="https://aka.ms/spfx" target="_blank" rel="noreferrer">SharePoint Framework Overview</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-graph" target="_blank" rel="noreferrer">Use Microsoft Graph in your solution</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-teams" target="_blank" rel="noreferrer">Build for Microsoft Teams using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-viva" target="_blank" rel="noreferrer">Build for Microsoft Viva Connections using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-store" target="_blank" rel="noreferrer">Publish SharePoint Framework applications to the marketplace</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-api" target="_blank" rel="noreferrer">SharePoint Framework API reference</a></li>
-            <li><a href="https://aka.ms/m365pnp" target="_blank" rel="noreferrer">Microsoft 365 Developer Community</a></li>
-          </ul>
-        </div>
-      </section>
-    );
-  }
-}
+        <div>{tombolaNumbers.length}</div>
+        {tombolaNumbers.length > 0 && (
+          <div className="numbers_container">{tombolaNumbers}</div>
+        )}
+        <PrimaryButton text="ConsoleLOOOOG" onClick={checkConsole} />
+        <PrimaryButton text="Gioca" onClick={numbersGenerator} />
+      </body>
+    </div>
+  );
+};
+export default Tombola;

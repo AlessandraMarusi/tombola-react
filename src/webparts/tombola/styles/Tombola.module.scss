@@ -1,0 +1,27 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+.tombola {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+  
+}
+.numbers_container {
+  display: flex;
+  flex-flow: row wrap;
+  span {
+    padding: 5px;
+    background-color: rgb(206, 205, 205);
+    border-radius: 50%;
+  }
+}
+.tombola_number {
+  padding: 5px;
+  background-color: rgb(206, 205, 205);
+  border-radius: 50%;
+}
+

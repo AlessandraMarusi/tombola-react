@@ -1,0 +1,20 @@
+.numbers_container {
+    display: flex;
+    flex-flow: row wrap;
+    span {
+      padding: 5px;
+      background-color: rgb(206, 205, 205);
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+//   .tombola_number {
+//     padding: 5px;
+//     background-color: rgb(206, 205, 205);
+//     border-radius: 50%;
+//   }
+  

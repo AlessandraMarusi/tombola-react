@@ -10,7 +10,7 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'TombolaWebPartStrings';
 import Tombola from './components/Tombola';
-import { ITombolaProps } from './components/ITombolaProps';
+import { ITombolaProps } from './contracts/ITombolaProps';
 
 export interface ITombolaWebPartProps {
   description: string;
